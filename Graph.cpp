@@ -17,7 +17,7 @@ void Graph::printGraph() {
     }
 }
 
-Graph::Graph(int vx, std::map<int, std::vector<int>> adj)
+Graph::Graph(int vx, std::map<int, std::set<int>> adj)
 : vertices{vx}, adjacency{adj} {
 
 }

@@ -3,7 +3,7 @@
 
 int main() {
     GraphLoader loader;
-    Graph newGraph = loader.loadInstance("test.txt");
+    Graph newGraph = loader.loadInstance("test_5.txt");
     newGraph.printGraph();
     return 0;
 }
