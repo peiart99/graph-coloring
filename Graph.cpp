@@ -6,6 +6,7 @@
 
 
 void Graph::printGraph() {
+    std::cout << "======================" << std::endl;
     for(size_t i {0}; i < vertices; i++)
     {
         std::cout << "Vertex: " << i + 1 << " -> ";
@@ -15,6 +16,7 @@ void Graph::printGraph() {
         }
         std::cout << std::endl;
     }
+    std::cout << "======================" << std::endl;
 }
 
 Graph::Graph(int vx, std::map<int, std::set<int>> adj)

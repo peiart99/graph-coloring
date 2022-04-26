@@ -8,6 +8,9 @@
 #include <iostream>
 #include <utility>
 #include "Graph.h"
+#include <ctime>
+#include <random>
+#include <chrono>
 
 class GraphLoader {
 private:
@@ -15,6 +18,8 @@ private:
 public:
     GraphLoader() = default;
     Graph loadInstance(const std::string &filename);
+    Graph generateInstance(int vertices);
+    Graph generateInstance();
 };
 
 

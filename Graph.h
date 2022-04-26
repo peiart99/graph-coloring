@@ -17,6 +17,7 @@ private:
 
 public:
     Graph(int vx, std::map<int, std::set<int>> adj);
+    int getVertices() {return vertices;};
     void printGraph();
 };
 

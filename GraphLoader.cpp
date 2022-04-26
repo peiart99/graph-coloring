@@ -4,6 +4,15 @@
 
 #include "GraphLoader.h"
 
+int generateRandomNumber(int min_value, int max_value)
+{
+    std::default_random_engine eng;
+    unsigned long int t = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    eng.seed(t);
+    static std::mt19937 gen(eng());
+    std::uniform_int_distribution<> dist(min_value,max_value);
+    return dist(gen);
+}
 Graph GraphLoader::loadInstance(const std::string &filename) {
     in_file.open("..\\Instances\\" + filename);
     int vertices {0};
@@ -39,4 +48,34 @@ Graph GraphLoader::loadInstance(const std::string &filename) {
     }
 
     return {vertices, adjacency};
+}
+
+Graph GraphLoader::generateInstance(int vertices) {
+    std::map<int, std::set<int>> tempMap;
+    int no_of_connections;
+    int tempValue;
+    for(size_t l {0}; l < vertices; l++)
+    {
+        tempMap.insert({l + 1, {}});
+    }
+    for(size_t i {0}; i < vertices; i++)
+    {
+        no_of_connections = generateRandomNumber(1, vertices-1);
+        for(size_t k {0}; k < no_of_connections; k++)
+        {
+            tempValue = generateRandomNumber(1, vertices-1);
+            while(tempValue == i + 1)
+            {
+                tempValue = generateRandomNumber(1, vertices-1);
+            }
+            tempMap.at(i+1).insert(tempValue);
+            tempMap.at(tempValue).insert(i+1);
+        }
+
+    }
+    return {vertices, tempMap};
+}
+
+Graph GraphLoader::generateInstance() {
+    return generateInstance(generateRandomNumber(5, 50));
 }
