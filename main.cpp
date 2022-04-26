@@ -1,6 +1,9 @@
 #include <iostream>
+#include "GraphLoader.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    GraphLoader loader;
+    Graph newGraph = loader.loadInstance("test.txt");
+    newGraph.printGraph();
     return 0;
 }
