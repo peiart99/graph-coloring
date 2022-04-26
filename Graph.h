@@ -6,6 +6,7 @@
 #define GRAPH_COLORING_GRAPH_H
 #include <map>
 #include <set>
+#include <vector>
 #include <iostream>
 
 
@@ -13,11 +14,16 @@
 class Graph {
 private:
     int vertices;
+    std::vector<int> colors;
     std::map<int, std::set<int>> adjacency;
 
 public:
     Graph(int vx, std::map<int, std::set<int>> adj);
-    int getVertices() {return vertices;};
+    Graph(const Graph &copy);
+    [[nodiscard]] int getVertices() const {return vertices;};
+    [[nodiscard]] std::map<int, std::set<int>> getAdjacency() const {return adjacency;};
+    [[nodiscard]] std::vector<int> getColors() const {return colors;};
+    std::vector<int> setColors(int value, int index) {colors.at(index) = value;};
     void printGraph();
 };
 

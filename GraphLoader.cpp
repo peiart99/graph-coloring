@@ -47,16 +47,17 @@ Graph GraphLoader::loadInstance(const std::string &filename) {
         }
     }
 
+    in_file.close();
     return {vertices, adjacency};
 }
 
 Graph GraphLoader::generateInstance(int vertices) {
-    std::map<int, std::set<int>> tempMap;
+    std::map<int, std::set<int>> adjacency;
     int no_of_connections;
     int tempValue;
     for(size_t l {0}; l < vertices; l++)
     {
-        tempMap.insert({l + 1, {}});
+        adjacency.insert({l + 1, {}});
     }
     for(size_t i {0}; i < vertices; i++)
     {
@@ -68,12 +69,12 @@ Graph GraphLoader::generateInstance(int vertices) {
             {
                 tempValue = generateRandomNumber(1, vertices-1);
             }
-            tempMap.at(i+1).insert(tempValue);
-            tempMap.at(tempValue).insert(i+1);
+            adjacency.at(i + 1).insert(tempValue);
+            adjacency.at(tempValue).insert(i + 1);
         }
 
     }
-    return {vertices, tempMap};
+    return {vertices, adjacency};
 }
 
 Graph GraphLoader::generateInstance() {
