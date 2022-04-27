@@ -13,6 +13,7 @@ int generateRandomNumber(int min_value, int max_value)
     std::uniform_int_distribution<> dist(min_value,max_value);
     return dist(gen);
 }
+
 Graph GraphLoader::loadInstance(const std::string &filename) {
     in_file.open("..\\Instances\\" + filename);
     int vertices {0};
@@ -25,7 +26,7 @@ Graph GraphLoader::loadInstance(const std::string &filename) {
         return {5, {{1,{2,5}},{2,{3,1}},{3,{2,4}},{4,{3,5}},{5,{4,1}}}};
     }
 
-    in_file >> vertices;
+    in_file >> vertices; // The first line of the file contains the total number of vertices
     for(int i {0}; i < vertices; i++)
     {
         adjacency.insert(std::pair<int, std::set<int>>(i + 1, {}));
@@ -44,15 +45,16 @@ Graph GraphLoader::loadInstance(const std::string &filename) {
 
 Graph GraphLoader::generateInstance(int vertices, float saturationPercent) {
     std::map<int, std::set<int>> adjacency;
-    int max_edges {(vertices * (vertices - 1))/2};
-    int no_of_connections = max_edges * saturationPercent;
-    std::cout << "Saturacja " << saturationPercent * 100 << "%, krawedzie: " << no_of_connections << std::endl;
+    int max_edges {(vertices * (vertices - 1))/2}; // the formula for the maximum amount of edges in a graph
+    int no_of_connections = max_edges * saturationPercent; // calculate the number of edges with a given saturation
     int tempValue;
     int tempVx;
+    // insert the vertices into the graph
     for(int l {0}; l < vertices; l++)
     {
         adjacency.insert({l + 1, {}});
     }
+
     for(int i {0}; i < no_of_connections; i++)
     {
         do
@@ -60,6 +62,7 @@ Graph GraphLoader::generateInstance(int vertices, float saturationPercent) {
             tempVx = generateRandomNumber(1, vertices);
             tempValue = generateRandomNumber(1, vertices);
         }while(tempValue == tempVx || adjacency.at(tempVx).count(tempValue) != 0);
+
         adjacency.at(tempVx).insert(tempValue);
         adjacency.at(tempValue).insert(tempVx);
 
@@ -68,6 +71,7 @@ Graph GraphLoader::generateInstance(int vertices, float saturationPercent) {
     return {vertices, adjacency};
 }
 
+// If no arguments are given - generate a 100% saturated graph with a random number of vertices from the 5-500 range
 Graph GraphLoader::generateInstance() {
-    return generateInstance(generateRandomNumber(5, 50), 1.0);
+    return generateInstance(generateRandomNumber(5, 500), 1.0);
 }
