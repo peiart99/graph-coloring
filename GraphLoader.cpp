@@ -42,32 +42,32 @@ Graph GraphLoader::loadInstance(const std::string &filename) {
     return {vertices, adjacency};
 }
 
-Graph GraphLoader::generateInstance(int vertices) {
+Graph GraphLoader::generateInstance(int vertices, float saturationPercent) {
     std::map<int, std::set<int>> adjacency;
-    int no_of_connections;
+    int max_edges {(vertices * (vertices - 1))/2};
+    int no_of_connections = max_edges * saturationPercent;
+    std::cout << "Saturacja " << saturationPercent * 100 << "%, krawedzie: " << no_of_connections << std::endl;
     int tempValue;
+    int tempVx;
     for(int l {0}; l < vertices; l++)
     {
         adjacency.insert({l + 1, {}});
     }
-    for(int i {0}; i < vertices; i++)
+    for(int i {0}; i < no_of_connections; i++)
     {
-        no_of_connections = generateRandomNumber(1, vertices-1);
-        for(int k {0}; k < no_of_connections; k++)
+        do
         {
-            tempValue = generateRandomNumber(1, vertices-1);
-            while(tempValue == i + 1)
-            {
-                tempValue = generateRandomNumber(1, vertices-1);
-            }
-            adjacency.at(i + 1).insert(tempValue);
-            adjacency.at(tempValue).insert(i + 1);
-        }
+            tempVx = generateRandomNumber(1, vertices);
+            tempValue = generateRandomNumber(1, vertices);
+        }while(tempValue == tempVx || adjacency.at(tempVx).count(tempValue) != 0);
+        adjacency.at(tempVx).insert(tempValue);
+        adjacency.at(tempValue).insert(tempVx);
+
 
     }
     return {vertices, adjacency};
 }
 
 Graph GraphLoader::generateInstance() {
-    return generateInstance(generateRandomNumber(5, 50));
+    return generateInstance(generateRandomNumber(5, 50), 1.0);
 }

@@ -12,8 +12,10 @@
 #include "Graph.h"
 
 class GraphColoring {
+private:
+    int lowestAvailible(const Graph &graph, int vertex);
 public:
-    std::pair<Graph, int> greedyAlgorithm(Graph graph);
+    void greedyAlgorithm(Graph &graph);
 };
 
 

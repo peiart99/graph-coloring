@@ -14,6 +14,7 @@
 class Graph {
 private:
     int vertices;
+    int numberOfColors;
     std::vector<int> colors;
     std::map<int, std::set<int>> adjacency;
 
@@ -23,7 +24,9 @@ public:
     [[nodiscard]] int getVertices() const {return vertices;};
     [[nodiscard]] std::map<int, std::set<int>> getAdjacency() const {return adjacency;};
     [[nodiscard]] std::vector<int> getColors() const {return colors;};
+    [[nodiscard]] int getNumberOfColors() const {return numberOfColors;};
     void setColors(int value, int index) {colors.at(index) = value;};
+    void setNumberOfColors(int value) {numberOfColors = value;};
     void printGraph();
 };
 

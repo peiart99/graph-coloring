@@ -4,37 +4,45 @@
 
 #include "GraphColoring.h"
 
-int countUnique(std::vector<int> colors) {
+int countUnique(const std::vector<int> &colors) {
     std::unordered_set<int> unique_colors(colors.begin(), colors.end());
     return unique_colors.size();
 }
 
-int lowestAvailible(const Graph &graph, int vertex)
+int GraphColoring::lowestAvailible(const Graph &graph, int vertex)
 {
+    int count {1};
+    std::set<int> adjacent = graph.getAdjacency().at(vertex);
     std::set<int> colors;
-    int lowest {0};
-    std::map<int, std::set<int>> adjacency = graph.getAdjacency();
-    for(auto &adj: adjacency.at(vertex))
+    for(const auto &vx: adjacent)
     {
-        colors.insert(graph.getColors().at(adj-1));
+        if(vx > vertex)
+            break;
+        colors.emplace(graph.getColors().at(vx-1));
     }
-    for(int i {1}; i < graph.getColors().size(); i++)
+    while(true)
     {
-        if(colors.count(i) == 0)
+        if(colors.count(count) == 0)
         {
-            lowest = i;
-            return lowest;
+            return count;
         }
+        count++;
     }
-    return lowest;
 }
 
-std::pair<Graph, int> GraphColoring::greedyAlgorithm(Graph graph) {
-    int lowest {0};
+void GraphColoring::greedyAlgorithm(Graph &graph) {
+    int lowest {1};
     for(int i {0}; i < graph.getVertices(); i++)
     {
-        lowest = lowestAvailible(graph, i + 1);
-        graph.setColors(lowest, i);
+        if(i > 0)
+        {
+            lowest = GraphColoring::lowestAvailible(graph, i + 1);
+            graph.setColors(lowest, i);
+        }else
+        {
+            graph.setColors(1, i);
+        }
+
     }
-    return {graph, countUnique(graph.getColors())};
+    graph.setNumberOfColors(countUnique(graph.getColors()));
 }

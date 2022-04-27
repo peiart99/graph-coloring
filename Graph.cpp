@@ -21,10 +21,10 @@ void Graph::printGraph() {
 
 
 Graph::Graph(int vx, std::map<int, std::set<int>> adj)
-: vertices{vx}, adjacency{adj}, colors(vx, 0) {
+: vertices{vx}, adjacency{adj}, colors(vx, 0), numberOfColors{0} {
 }
 
 Graph::Graph(const Graph &copy)
-: vertices{copy.vertices}, adjacency{copy.adjacency}, colors{copy.colors} {
+: vertices{copy.vertices}, adjacency{copy.adjacency}, colors{copy.colors}, numberOfColors(copy.numberOfColors) {
 
 }
