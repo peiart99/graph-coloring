@@ -15,6 +15,7 @@ The fist algorithm that will be implemented is the greedy algorithm. After that 
 
 
 ###The enforced format for graph instances:
+
 The first line represents the number of vertices. All of the lines after that represent the connections between 2 vertices.
 ```
 5
