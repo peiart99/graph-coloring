@@ -35,16 +35,7 @@ Graph GraphLoader::loadInstance(const std::string &filename) {
         in_file >> key;
         in_file >> val;
         adjacency.at(key).insert(val);
-    }
-
-    // The enforced model instance doesn't include entries for the last vertex. The loop below searches through n-1 vertices and looks if they are adjacent to the nth vertex.
-    // This way the adjacency list graph representation is more clear and easier to work with when already loaded.
-    for(const auto &adjval: adjacency)
-    {
-        if(adjval.second.count(vertices) > 0)
-        {
-            adjacency.at(vertices).insert(adjval.first);
-        }
+        adjacency.at(val).insert(key);
     }
 
     in_file.close();
@@ -55,14 +46,14 @@ Graph GraphLoader::generateInstance(int vertices) {
     std::map<int, std::set<int>> adjacency;
     int no_of_connections;
     int tempValue;
-    for(size_t l {0}; l < vertices; l++)
+    for(int l {0}; l < vertices; l++)
     {
         adjacency.insert({l + 1, {}});
     }
-    for(size_t i {0}; i < vertices; i++)
+    for(int i {0}; i < vertices; i++)
     {
         no_of_connections = generateRandomNumber(1, vertices-1);
-        for(size_t k {0}; k < no_of_connections; k++)
+        for(int k {0}; k < no_of_connections; k++)
         {
             tempValue = generateRandomNumber(1, vertices-1);
             while(tempValue == i + 1)

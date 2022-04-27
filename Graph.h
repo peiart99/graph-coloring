@@ -23,7 +23,7 @@ public:
     [[nodiscard]] int getVertices() const {return vertices;};
     [[nodiscard]] std::map<int, std::set<int>> getAdjacency() const {return adjacency;};
     [[nodiscard]] std::vector<int> getColors() const {return colors;};
-    std::vector<int> setColors(int value, int index) {colors.at(index) = value;};
+    void setColors(int value, int index) {colors.at(index) = value;};
     void printGraph();
 };
 

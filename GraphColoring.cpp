@@ -18,11 +18,11 @@ int lowestAvailible(const Graph &graph, int vertex)
     {
         colors.insert(graph.getColors().at(adj-1));
     }
-    for(size_t i {0}; i < graph.getColors().size(); i++)
+    for(int i {1}; i < graph.getColors().size(); i++)
     {
-        if(colors.count(i + 1) == 0)
+        if(colors.count(i) == 0)
         {
-            lowest = i + 1;
+            lowest = i;
             return lowest;
         }
     }
@@ -31,7 +31,7 @@ int lowestAvailible(const Graph &graph, int vertex)
 
 std::pair<Graph, int> GraphColoring::greedyAlgorithm(Graph graph) {
     int lowest {0};
-    for(size_t i {0}; i < graph.getVertices(); i++)
+    for(int i {0}; i < graph.getVertices(); i++)
     {
         lowest = lowestAvailible(graph, i + 1);
         graph.setColors(lowest, i);
