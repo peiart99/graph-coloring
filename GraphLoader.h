@@ -11,15 +11,17 @@
 #include <ctime>
 #include <random>
 #include <chrono>
+#include <algorithm>
 
 class GraphLoader {
 private:
     std::fstream in_file;
 public:
     GraphLoader() = default;
-    Graph loadInstance(const std::string &filename);
-    Graph generateInstance(int vertices, float saturationPercent);
-    Graph generateInstance();
+    void loadInstance(const std::string &filename, Graph &graph);
+    void generateInstance(int vertices, float saturationPercent, Graph &graph);
+    void saveToFile(const Graph &graph, std::string filename);
+
 };
 
 

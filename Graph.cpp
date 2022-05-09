@@ -4,15 +4,17 @@
 
 #include "Graph.h"
 
+#include <utility>
+
 
 void Graph::printGraph() {
     std::cout << "======================" << std::endl;
-    for(size_t i {0}; i < vertices; i++)
+    for(size_t i {0}; i < numberOfVertices; i++)
     {
-        std::cout << "Vertex: " << i + 1 << " Color: "<< colors.at(i) << " -> ";
-        for(const auto &adj:adjacency.at(i + 1))
+        std::cout << "Vertex: " << vertices.at(i).getLabel() << " Color: "<< vertices.at(i).getColor() << " -> ";
+        for(const auto &adj:vertices.at(i).adjacent)
         {
-            std::cout << adj << ", ";
+            std::cout << adj->getLabel() << ", ";
         }
         std::cout << std::endl;
     }
@@ -20,11 +22,17 @@ void Graph::printGraph() {
 }
 
 
-Graph::Graph(int vx, std::map<int, std::set<int>> adj)
-: vertices{vx}, adjacency{adj}, colors(vx, 0), numberOfColors{0} {
+Graph::Graph(int vx)
+: numberOfVertices{vx}, numberOfColors{0} {
 }
 
 Graph::Graph(const Graph &copy)
-: vertices{copy.vertices}, adjacency{copy.adjacency}, colors{copy.colors}, numberOfColors(copy.numberOfColors) {
+: vertices{copy.vertices}, numberOfColors(copy.numberOfColors), numberOfVertices{copy.numberOfVertices} {
+
+}
+
+void Graph::addEdge(Vertex *vx1, Vertex *vx2) {
+    vx1->addAdjacent(vx2);
+    vx2->addAdjacent(vx1);
 
 }
