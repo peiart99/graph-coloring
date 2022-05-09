@@ -7,7 +7,9 @@ The fist algorithm that will be implemented is the greedy algorithm. After that 
 ### Current functionality:
 - Loading a graph from a file (format below)
 - Generating a random graph by providing the number of vertices and the saturation
+- Saving random graphs as files
 - Coloring a graph with the greedy algorithm
+- Simple console UI (In Polish currently, English will be implemented soon)
 
 ### To-do list (development branch):
 - Implementing a metaheuristic (to be chosen)

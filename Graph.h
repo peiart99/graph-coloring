@@ -18,8 +18,7 @@ private:
 
 public:
     std::vector<Vertex> vertices;
-    explicit Graph(int vx);
-    Graph(int vx, std::vector<Vertex> vxs);
+    explicit Graph(int vx = 0);
     Graph(const Graph &copy);
     ~Graph() = default;
     void addEdge(Vertex *vx1, Vertex *vx2);
@@ -27,6 +26,7 @@ public:
     [[nodiscard]] int getNumberOfVertices() const {return numberOfVertices;};
     [[nodiscard]] int getNumberOfColors() const {return numberOfColors;};
     void setNumberOfColors(int value) {numberOfColors = value;};
+    void setNumberOfVertices(int value) {numberOfVertices = value;};
     void printGraph();
 };
 

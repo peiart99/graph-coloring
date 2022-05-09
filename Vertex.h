@@ -19,6 +19,7 @@ public:
     void addAdjacent(Vertex* vxPtr);
     [[nodiscard]] int getLabel() const {return label;};
     [[nodiscard]] int getColor() const {return color;};
+    void setColor(int newColor) {color = newColor;};
     bool operator<(const Vertex &rhs);
     bool operator>(const Vertex &rhs);
 };

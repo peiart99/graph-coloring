@@ -36,8 +36,3 @@ void Graph::addEdge(Vertex *vx1, Vertex *vx2) {
     vx2->addAdjacent(vx1);
 
 }
-
-Graph::Graph(int vx, std::vector<Vertex> vxs)
-: numberOfVertices{vx}, vertices{std::move(vxs)} {
-
-}

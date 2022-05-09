@@ -8,7 +8,7 @@ void UserInterface::mainMenu() {
     bool quit {false};
     unsigned short choice{};
     do {
-        std::cout << "--------Kolorowanie Grafu v1.0--------\n"
+        std::cout << "--------Kolorowanie Grafu v1.1--------\n"
                      "[0] Lista funkcji\n"
                      "[1] Kolorowanie na podstawie pliku (greedy)\n"
                      "[2] Kolorowanie losowych grafow (greedy)\n"
@@ -57,7 +57,8 @@ void UserInterface::colorFromFile() {
     GraphColoring coloring;
     std::cout << "Podaj nazwe pliku" << std::endl;
     std::cin >> filename;
-    Graph graph = loader.loadInstance(filename);
+    Graph graph;
+    loader.loadInstance(filename, graph);
     coloring.greedyAlgorithm(graph);
     std::cout << "==Uzyte kolory: " << graph.getNumberOfColors() << "==" << std::endl;
 }
@@ -74,7 +75,8 @@ void UserInterface::colorGenerated() {
     std::cin >> saturation;
     std::cout << "Podaj nazwe pliku do zapisania instancji" << std::endl;
     std::cin >> filename;
-    Graph graph = loader.generateInstance(vertices, saturation);
+    Graph graph;
+    loader.generateInstance(vertices, saturation, graph);
     coloring.greedyAlgorithm(graph);
     std::cout << "==Uzyte kolory: " << graph.getNumberOfColors() << "==" << std::endl;
     //graph.printGraph();
