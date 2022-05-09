@@ -11,6 +11,7 @@
 #include <ctime>
 #include <random>
 #include <chrono>
+#include <algorithm>
 
 class GraphLoader {
 private:
@@ -20,6 +21,8 @@ public:
     Graph loadInstance(const std::string &filename);
     Graph generateInstance(int vertices, float saturationPercent);
     Graph generateInstance();
+    void saveToFile(const Graph &graph, std::string filename);
+
 };
 
 

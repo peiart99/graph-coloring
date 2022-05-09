@@ -8,24 +8,24 @@
 #include <set>
 #include <vector>
 #include <iostream>
-
+#include "Vertex.h"
 
 
 class Graph {
 private:
-    int vertices;
+    int numberOfVertices;
     int numberOfColors;
-    std::vector<int> colors;
-    std::map<int, std::set<int>> adjacency;
 
 public:
-    Graph(int vx, std::map<int, std::set<int>> adj);
+    std::vector<Vertex> vertices;
+    explicit Graph(int vx);
+    Graph(int vx, std::vector<Vertex> vxs);
     Graph(const Graph &copy);
-    [[nodiscard]] int getVertices() const {return vertices;};
-    [[nodiscard]] std::map<int, std::set<int>> getAdjacency() const {return adjacency;};
-    [[nodiscard]] std::vector<int> getColors() const {return colors;};
+    ~Graph() = default;
+    void addEdge(Vertex *vx1, Vertex *vx2);
+    [[nodiscard]] std::vector<Vertex> getVertices() const {return vertices;};
+    [[nodiscard]] int getNumberOfVertices() const {return numberOfVertices;};
     [[nodiscard]] int getNumberOfColors() const {return numberOfColors;};
-    void setColors(int value, int index) {colors.at(index) = value;};
     void setNumberOfColors(int value) {numberOfColors = value;};
     void printGraph();
 };
