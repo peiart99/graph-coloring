@@ -22,6 +22,7 @@ private:
     void parentSelection1(const std::vector<std::pair<int, std::vector<int>>> &population, std::vector<int> &parent1, std::vector<int> &parent2);
     void crossover(const std::vector<int> &parent1, const std::vector<int> &parent2, std::vector<int> &child);
     void mutation1(const Graph &graph, std::vector<int> &child, int colors);
+    void mutation2(const Graph &graph, std::vector<int> &child, int colors);
 public:
     void greedyAlgorithm(Graph &graph);
     void geneticAlgorithm(Graph &graph, int generation_limit);

@@ -9,9 +9,10 @@ int main() {
     GraphLoader loader;
     GraphColoring color;
     Graph graph;
-    loader.generateInstance(10, 0.5, graph);
-    graph.printGraph();
-    color.geneticAlgorithm(graph, 10000);
+    //loader.generateInstance(100, 0.5, graph);
+    loader.loadInstance("gc500.txt", graph);
+    //graph.printGraph();
+    color.geneticAlgorithm(graph, 30000);
 
     return 0;
 }
