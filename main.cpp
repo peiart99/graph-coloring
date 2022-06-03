@@ -12,7 +12,7 @@ int main() {
     //loader.generateInstance(100, 0.5, graph);
     loader.loadInstance("gc500.txt", graph);
     //graph.printGraph();
-    color.geneticAlgorithm(graph, 20000);
+    color.geneticAlgorithm(graph, 20000, 68);
 
     return 0;
 }

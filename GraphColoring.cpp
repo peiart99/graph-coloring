@@ -63,24 +63,28 @@ void GraphColoring::greedyAlgorithm(Graph &graph) {
     graph.setNumberOfColors(countUniqueColors(graph));
 }
 
-void GraphColoring::geneticAlgorithm(Graph &graph, int generation_limit) {
+void GraphColoring::geneticAlgorithm(Graph &graph, int generation_limit, int colors_to_try) {
     std::vector<std::pair<int, std::vector<int>>> population;
     std::vector<int> parent1;
     std::vector<int> parent2;
     std::vector<int> child;
     std::vector<int> winner;
     int vertices;
-    int colors;
+    int colors {};
     int population_size {50};
     int generation_count {0};
     int mutation_check {0};
     int mutation_rate {70}; // 0 - 100 (0% - 100%)
     bool solution_found {false};
     bool lowest_found {false};
-    bool mut2 {false};
+    //bool mut2 {false};
     GraphColoring::greedyAlgorithm(graph);
     vertices = graph.getNumberOfVertices();
-    colors = graph.getNumberOfColors();
+    if(colors_to_try == 0)
+        colors = graph.getNumberOfColors();
+    else
+        colors = colors_to_try;
+
     do {
         population.clear();
         generation_count = 0;
@@ -119,33 +123,42 @@ void GraphColoring::geneticAlgorithm(Graph &graph, int generation_limit) {
                     if(mutation_check < mutation_rate)
                         GraphColoring::mutation1(graph, child, colors);
 
-                    mut2 = false;
+                    //mut2 = false;
                 }else
                 {
+                    child = population.at(0).second;
                     //parent2 = population.at(1).second;
                     //GraphColoring::crossover(parent1, parent2, child);
                     //if(mutation_check < 70)
-                    GraphColoring::mutation2(graph, population.at(0).second, colors);
-                    GraphColoring::evaluateFitness(graph, population.at(0));
-                    mut2 = true;
+                    GraphColoring::mutation2(graph, child, colors);
+                    //GraphColoring::evaluateFitness(graph, population.at(0));
+                    //mut2 = true;
                 }
-                GraphColoring::newGeneration(population_size,population,child,colors,vertices, mut2);
+                GraphColoring::newGeneration(population_size,population,child,colors,vertices);
                 auto startF = std::chrono::high_resolution_clock::now();
 //                for(int j {population_size/2}; j < population.size(); j++)
 //                {
 //                    GraphColoring::evaluateFitness(graph, population.at(j));
 //                }
-                for(int j {(population_size/2) + 3} ; j < population.size(); j += 4)
+                for(int j {(population_size/2) + 7} ; j < population.size(); j += 8)
                 {
-                    std::thread fitness1(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-3)));
-                    std::thread fitness2(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-2)));
-                    std::thread fitness3(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-1)));
-                    std::thread fitness4(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j)));
+                    std::thread fitness1(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-7)));
+                    std::thread fitness2(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-6)));
+                    std::thread fitness3(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-5)));
+                    std::thread fitness4(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-4)));
+                    std::thread fitness5(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-3)));
+                    std::thread fitness6(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-2)));
+                    std::thread fitness7(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j-1)));
+                    std::thread fitness8(&GraphColoring::evaluateFitness, this, std::ref(graph), std::ref(population.at(j)));
 
                     fitness1.join();
                     fitness2.join();
                     fitness3.join();
                     fitness4.join();
+                    fitness5.join();
+                    fitness6.join();
+                    fitness7.join();
+                    fitness8.join();
                 }
                 GraphColoring::evaluateFitness(graph, population.at(49));
                 auto stopF = std::chrono::high_resolution_clock::now();
@@ -294,7 +307,7 @@ void GraphColoring::crossover(const std::vector<int> &parent1, const std::vector
 }
 
 void GraphColoring::mutation1(const Graph &graph, std::vector<int> &child, int colors) {
-    //auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
     std::set<int> colorsInUse;
     int mutated{};
     bool fit {true};
@@ -319,21 +332,18 @@ void GraphColoring::mutation1(const Graph &graph, std::vector<int> &child, int c
             child.at(i) = mutated;
         }
     }
-    //auto stop = std::chrono::high_resolution_clock::now();
-    //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-    //std::cout << "Elapsed time(Mutation1): " << duration.count() << " ms" << std::endl;
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    std::cout << "Elapsed time(Mutation1): " << duration.count() << " ms" << std::endl;
 }
 
 void
 GraphColoring::newGeneration(int population_size, std::vector<std::pair<int, std::vector<int>>> &population, std::vector<int> &child ,int colors,
-                             int vertices, bool enterChild) {
+                             int vertices) {
     auto startCl = std::chrono::high_resolution_clock::now();
     int start = population_size / 2;
-    if(!enterChild)
-    {
-        population.at(start) = std::make_pair(-1, child);
-        start++;
-    }
+    population.at(start) = std::make_pair(-1, child);
+    start++;
     for(int i {start}; i < population_size; i++)
     {
         population.at(i) = std::make_pair(-1, std::vector<int>());
@@ -365,12 +375,13 @@ void GraphColoring::mutation2(const Graph &graph, std::vector<int> &child, int c
         if(!fit)
         {
             mutated = generateRandomNumber(1, colors);
+            //std::cout << "LOSOWY KOLOR: " << mutated << std::endl;
             child.at(i) = mutated;
         }
     }
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-    //std::cout << "Elapsed time(Mutation2): " << duration.count() << " ms" << std::endl;
+    std::cout << "Elapsed time(Mutation2): " << duration.count() << " ms" << std::endl;
 }
 
 
