@@ -150,9 +150,17 @@ void Population::crossover(int generation) {
 }
 
 void Population::evaluateAllFitness() {
-    for(int i {0}; i < population.size(); i++)
+    for(int i {0}; i < population.size(); i+=4)
     {
-        population.at(i).evaluateFitness();
+        std::thread t1(&Chromosome::evaluateFitness, &population.at(i));
+        std::thread t2(&Chromosome::evaluateFitness, &population.at(i+1));
+        std::thread t3(&Chromosome::evaluateFitness, &population.at(i+2));
+        std::thread t4(&Chromosome::evaluateFitness, &population.at(i+3));
+
+        t1.join();
+        t2.join();
+        t3.join();
+        t4.join();
     }
 }
 

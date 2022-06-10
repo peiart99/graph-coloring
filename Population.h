@@ -9,6 +9,7 @@
 #include "Chromosome.h"
 #include "Graph.h"
 #include "Utility.h"
+#include <thread>
 
 class Population {
 private:
