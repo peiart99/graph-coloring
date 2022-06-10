@@ -13,8 +13,6 @@
 #include <chrono>
 #include <algorithm>
 
-int generateRandomNumber(int min_value, int max_value);
-
 class GraphLoader {
 private:
     std::fstream in_file;

@@ -9,7 +9,7 @@
 
 void Graph::printGraph() {
     std::cout << "======================" << std::endl;
-    for(size_t i {0}; i < numberOfVertices; i++)
+    for(size_t i {0}; i < number_of_vertices; i++)
     {
         std::cout << "Vertex: " << vertices.at(i).getLabel() << " Color: "<< vertices.at(i).getColor() << " -> ";
         for(const auto &adj:vertices.at(i).adjacent)
@@ -23,11 +23,11 @@ void Graph::printGraph() {
 
 
 Graph::Graph(int vx)
-: numberOfVertices{vx}, numberOfColors{0} {
+: number_of_vertices{vx}, number_of_colors{0} {
 }
 
 Graph::Graph(const Graph &copy)
-: vertices{copy.vertices}, numberOfColors(copy.numberOfColors), numberOfVertices{copy.numberOfVertices} {
+: vertices{copy.vertices}, number_of_colors(copy.number_of_colors), number_of_vertices{copy.number_of_vertices} {
 
 }
 
@@ -35,4 +35,19 @@ void Graph::addEdge(Vertex *vx1, Vertex *vx2) {
     vx1->addAdjacent(vx2);
     vx2->addAdjacent(vx1);
 
+}
+
+void Graph::findOptimalIndices() {
+    for(int i{0}; i < vertices.size(); i++)
+    {
+        optimalIndices.push_back(-1);
+        for(int j{0}; j < vertices.at(i).adjacent.size(); j++)
+        {
+            if(vertices.at(i).adjacent.at(j)->getLabel() > vertices.at(i).getLabel())
+            {
+                optimalIndices.at(i) = j;
+                break;
+            }
+        }
+    }
 }

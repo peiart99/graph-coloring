@@ -3,16 +3,7 @@
 //
 
 #include "GraphLoader.h"
-
-int generateRandomNumber(int min_value, int max_value)
-{
-    std::default_random_engine eng;
-    unsigned long int t = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    eng.seed(t);
-    static std::mt19937 gen(eng());
-    std::uniform_int_distribution<> dist(min_value,max_value);
-    return dist(gen);
-}
+#include "Utility.h"
 
 void GraphLoader::loadInstance(const std::string &filename, Graph &graph) {
     in_file.open("..\\Instances\\" + filename);
@@ -47,6 +38,7 @@ void GraphLoader::loadInstance(const std::string &filename, Graph &graph) {
         // However there are files that allow duplicates (for example both 1->5 and 5->1 are present in the file)
         graph.vertices.at(j).adjacent.erase(std::unique(graph.vertices.at(j).adjacent.begin(), graph.vertices.at(j).adjacent.end()), graph.vertices.at(j).adjacent.end());
     }
+    graph.findOptimalIndices();
 }
 
 void GraphLoader::generateInstance(int vertices, float saturationPercent, Graph &graph) {
@@ -67,8 +59,8 @@ void GraphLoader::generateInstance(int vertices, float saturationPercent, Graph 
     {
         do
         {
-            tempVx = generateRandomNumber(1, vertices);
-            tempValue = generateRandomNumber(1, vertices);
+            tempVx = util::generateRandomNumber(1, vertices);
+            tempValue = util::generateRandomNumber(1, vertices);
         }while(tempValue == tempVx ||  adjacency.at(tempVx).count(tempValue) != 0); // Helper map used to check if a connection already exist. A relic from the previous, vastly different version. To be changed.
 
         adjacency.at(tempVx).insert(tempValue);
@@ -83,6 +75,7 @@ void GraphLoader::generateInstance(int vertices, float saturationPercent, Graph 
     {
         std::sort(graph.vertices.at(j).adjacent.begin(), graph.vertices.at(j).adjacent.end());
     }
+    graph.findOptimalIndices();
 }
 
 

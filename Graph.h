@@ -13,20 +13,22 @@
 
 class Graph {
 private:
-    int numberOfVertices;
-    int numberOfColors;
+    int number_of_vertices;
+    int number_of_colors;
 
 public:
     std::vector<Vertex> vertices;
+    std::vector<int> optimalIndices;
     explicit Graph(int vx = 0);
     Graph(const Graph &copy);
     ~Graph() = default;
     void addEdge(Vertex *vx1, Vertex *vx2);
     [[nodiscard]] std::vector<Vertex> getVertices() const {return vertices;};
-    [[nodiscard]] int getNumberOfVertices() const {return numberOfVertices;};
-    [[nodiscard]] int getNumberOfColors() const {return numberOfColors;};
-    void setNumberOfColors(int value) {numberOfColors = value;};
-    void setNumberOfVertices(int value) {numberOfVertices = value;};
+    [[nodiscard]] int getNumberOfVertices() const {return number_of_vertices;};
+    [[nodiscard]] int getNumberOfColors() const {return number_of_colors;};
+    void setNumberOfColors(int value) { number_of_colors = value;};
+    void setNumberOfVertices(int value) { number_of_vertices = value;};
+    void findOptimalIndices();
     void printGraph();
 };
 
