@@ -13,7 +13,7 @@ class UserInterface {
 public:
     void mainMenu();
     void showDescription();
-    void colorFromFile();
+    void colorFromFile(bool genetic);
     void colorGenerated();
 };
 

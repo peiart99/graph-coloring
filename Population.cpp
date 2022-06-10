@@ -128,6 +128,8 @@ void Population::crossover(int generation) {
     int temp {0};
     for(int i {0}; i < population.size() - 1; i += 2)
     {
+        if(best_fitness > 4)
+        {
         cross_point = util::generateRandomNumber(1, population.at(i).getSize() - 1);
         //std::cout << cross_point << std::endl;
         for(int j {cross_point}; j < population.at(i).getSize(); j++)
@@ -137,14 +139,13 @@ void Population::crossover(int generation) {
             population.at(i+1).genes.at(j) = temp;
 
         }
-        if(generation < 200)
-        {
+
             population.at(i).mutate(0.2);
             population.at(i+1).mutate(0.2);
         }else
         {
-            population.at(i).mutate(0.4);
-            population.at(i+1).mutate(0.4);
+            population.at(i).mutate(0.9);
+            population.at(i+1).mutate(0.9);
         }
     }
 }

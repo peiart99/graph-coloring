@@ -18,7 +18,7 @@ private:
     int lowestAvailible(const Graph &graph, int vertex);
 public:
     void greedyAlgorithm(Graph &graph);
-    void geneticAlgorithm(Graph &graph, int generation_limit, int colors_to_try);
+    void geneticAlgorithm(Graph &graph, int generation_limit, int colors_to_try, std::string filename);
 
 };
 

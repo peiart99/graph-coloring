@@ -9,14 +9,14 @@
 
 
 int main() {
-    //UserInterface UI;
-    //UI.mainMenu();
-    GraphLoader loader;
-    GraphColoring color;
-    Graph graph;
-    //loader.generateInstance(100, 0.5, graph);
-    loader.loadInstance("le450_5a.txt", graph);
-    color.geneticAlgorithm(graph, 10000, 8);
+    UserInterface UI;
+    UI.mainMenu();
+//    GraphLoader loader;
+//    GraphColoring color;
+//    Graph graph;
+//    //loader.generateInstance(100, 0.5, graph);
+//    loader.loadInstance("le450_5a.txt", graph);
+//    color.geneticAlgorithm(graph, 10000, 8);
     return 0;
 
 

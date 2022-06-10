@@ -6,6 +6,7 @@
 #define GRAPH_COLORING_CHROMOSOME_H
 #include <utility>
 #include <vector>
+#include <fstream>
 #include "Graph.h"
 #include "Utility.h"
 
@@ -19,6 +20,7 @@ public:
     Chromosome(Graph* graphptr, int vertices, int colors);
     ~Chromosome() = default;
     void print();
+    void saveToFile(std::string filename);
     void randomizeGenes();
     void resetData(const std::vector<int> &new_genes, int new_fitness);
     void evaluateFitness();

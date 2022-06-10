@@ -75,3 +75,16 @@ void Chromosome::mutate(double probability) {
         genes.at(position) = util::generateRandomNumber(1, max_colors);
     }
 }
+
+void Chromosome::saveToFile(std::string filename) {
+    std::fstream in_file;
+    in_file.open("..\\Instances\\" + filename, std::fstream::out | std::fstream::app);
+    in_file << "Fitness: " << fitness << std::endl;
+    in_file << "Genes: ";
+    for(int i{0}; i < genes.size(); i++)
+    {
+        in_file << genes.at(i) << ", ";
+    }
+    in_file << std::endl;
+    in_file.close();
+}
